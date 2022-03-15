@@ -2,7 +2,7 @@
 
 namespace And3k5.ConsoleExtensions.Chaining
 {
-    public class QueuedConsoleChainModel : ConsoleChainModelBase
+    internal class QueuedConsoleChainModel : ConsoleChainModelBase
     {
         private Action _action;
 
