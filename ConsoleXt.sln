@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "And3k5.ConsoleExtensions", "And3k5.ConsoleXt\And3k5.ConsoleExtensions.csproj", "{D278E99B-7403-4031-A3CA-E60E9F64F6D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D278E99B-7403-4031-A3CA-E60E9F64F6D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D278E99B-7403-4031-A3CA-E60E9F64F6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D278E99B-7403-4031-A3CA-E60E9F64F6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D278E99B-7403-4031-A3CA-E60E9F64F6D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64EBBD59-137D-4313-ADD0-909E65B62FC2}
+	EndGlobalSection
+EndGlobal
