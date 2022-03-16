@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using And3k5.ConsoleExtensions.Chaining;
 
 namespace And3k5.ConsoleExtensions
@@ -94,5 +95,8 @@ namespace And3k5.ConsoleExtensions
         public static ConsoleChainModelBase Write(ulong value) => new ImmediateConsoleChainModel().Write(value);
         public static ConsoleChainModelBase Write(object value) => new ImmediateConsoleChainModel().Write(value);
         public static ConsoleChainModelBase Write(string value) => new ImmediateConsoleChainModel().Write(value);
+
+        public static ConsoleColor[] GetAllConsoleColors() =>
+            Enum.GetValues(typeof(ConsoleColor)).Cast<ConsoleColor>().ToArray();
     }
 }
