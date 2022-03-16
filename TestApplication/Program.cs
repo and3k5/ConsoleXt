@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using And3k5.ConsoleExtensions;
 using And3k5.ConsoleExtensions.Colors;
 
@@ -15,16 +18,30 @@ namespace TestApplication
                 .Fg(ConsoleColor.Yellow).Write("!").ResetColor()
                 .WriteLine();
 
-            var colors = ConsoleXt.GetAllConsoleColors().Where(x => x.ToColor().GetSaturation() > 0.1)
-                .OrderBy(x => x.ToColor().GetHue());
-            foreach (var color in colors)
+            var colorsLoop = Loop(ConsoleXt.GetAllConsoleColors().Where(x => x.ToColor().GetSaturation() > 0.1)
+                .OrderBy(x => x.ToColor().GetHue())).GetEnumerator();
+            
+            var message = "Hello world. This is a rainbow effect.";
+            
+            var hasWritten = false;
+            
+            while (true)
             {
-                ConsoleXt.Fg(color).WriteLine(new string('█', Console.WindowWidth)).ResetColor();
+                Console.CursorLeft = 0;
+                foreach (var ch in message)
+                {
+                    colorsLoop.MoveNext();
+                    ConsoleXt.Fg(colorsLoop.Current).Write(ch).ResetColor();
+                }
+                Thread.Sleep(100);
             }
+        }
 
-            ConsoleXt.WriteLine();
-
-            Console.WriteLine("Hello World!");
+        private static IEnumerable<TItem> Loop<TItem>(IEnumerable<TItem> items)
+        {
+            while (true)
+                foreach (var item in items)
+                    yield return item;
         }
     }
 }
