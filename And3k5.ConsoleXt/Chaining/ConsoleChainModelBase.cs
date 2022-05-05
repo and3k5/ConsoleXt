@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
+using System.Text;
 
 namespace And3k5.ConsoleExtensions.Chaining
 {
@@ -41,6 +44,12 @@ namespace And3k5.ConsoleExtensions.Chaining
         public ConsoleChainModelBase WriteLine(object value) => Append(() => Console.WriteLine(value));
         public ConsoleChainModelBase WriteLine(string value) => Append(() => Console.WriteLine(value));
 
+        public ConsoleChainModelBase WriteLine(DataTable value)
+        {
+            var formattedTable = FormatTable(value);
+            return Append(() => Console.WriteLine(formattedTable));
+        }
+
         public ConsoleChainModelBase WriteLine(string format, object arg0) =>
             Append(() => Console.WriteLine(format, arg0));
 
@@ -80,6 +89,62 @@ namespace And3k5.ConsoleExtensions.Chaining
         public ConsoleChainModelBase Write(ulong value) => Append(() => Console.Write(value));
         public ConsoleChainModelBase Write(object value) => Append(() => Console.Write(value));
         public ConsoleChainModelBase Write(string value) => Append(() => Console.Write(value));
+
+        public ConsoleChainModelBase Write(DataTable value)
+        {
+            var formattedTable = FormatTable(value);
+            return Append(() => Console.Write(formattedTable));
+        }
+
+        private string FormatTable(DataTable value)
+        {
+            var stringBuilder = new StringBuilder();
+
+            var columnsAndMaxLength = value.Columns.Cast<DataColumn>().Select(x => new
+            {
+                column = x,
+                maxLength = value.Rows.Cast<DataRow>().Select(y => y[x]?.ToString()).Concat(new[] { x.ColumnName })
+                    .Max(y => y?.Length ?? 0)
+            }).ToArray();
+
+            var passedFirstColumn = false;
+
+            foreach (var column in columnsAndMaxLength)
+            {
+                if (passedFirstColumn)
+                    stringBuilder.Append(" ");
+                var columnName = column.column.ColumnName ?? "";
+                stringBuilder.Append(columnName);
+                var whitespaces = (column.maxLength - columnName.Length);
+                if (whitespaces > 0)
+                    stringBuilder.Append(new string(' ', whitespaces));
+                passedFirstColumn = true;
+            }
+
+            if (value.Rows.Count > 0)
+            {
+                foreach (DataRow row in value.Rows)
+                {
+                    stringBuilder.AppendLine();
+
+                    passedFirstColumn = false;
+
+                    foreach (var column in columnsAndMaxLength)
+                    {
+                        if (passedFirstColumn)
+                            stringBuilder.Append(" ");
+                        var columnValue = row[column.column]?.ToString() ?? "";
+                        stringBuilder.Append(columnValue);
+                        var whitespaces = (column.maxLength - columnValue.Length);
+                        if (whitespaces > 0)
+                            stringBuilder.Append(new string(' ', whitespaces));
+                        passedFirstColumn = true;
+                    }
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
 
 
         private ConsoleChainModelBase Append(Action action)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using And3k5.ConsoleExtensions;
@@ -18,6 +19,18 @@ namespace TestApplication
                 .Fg(ConsoleColor.Yellow).Write("!").ResetColor()
                 .WriteLine();
 
+            var dt = new DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("Phrase");
+            dt.Columns.Add("Developer slang");
+
+            dt.Rows.Add(dt.NewRow().SetFields(1,"Foo",true));
+            dt.Rows.Add(dt.NewRow().SetFields(1,"Bar",true));
+            dt.Rows.Add(dt.NewRow().SetFields(1,"Baz",true));
+            dt.Rows.Add(dt.NewRow().SetFields(1,"Catchphrase!",false));
+
+            ConsoleXt.WriteLine(dt);
+
             var colorsLoop = Loop(ConsoleXt.GetAllConsoleColors().Where(x => x.ToColor().GetSaturation() > 0.1)
                 .OrderBy(x => x.ToColor().GetHue())).GetEnumerator();
             
@@ -34,7 +47,8 @@ namespace TestApplication
                     ConsoleXt.Fg(colorsLoop.Current).Write(ch).ResetColor();
                 }
                 Thread.Sleep(100);
-            }
+            }   
+
         }
 
         private static IEnumerable<TItem> Loop<TItem>(IEnumerable<TItem> items)
